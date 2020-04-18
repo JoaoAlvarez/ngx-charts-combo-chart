@@ -2,7 +2,31 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'my-app',
-  templateUrl: './app.component.html',
+  template: `<combo-chart-component
+  [view]="view"
+  [scheme]="comboBarScheme"
+  [colorSchemeLine]="lineChartScheme"
+  [results]="barChart"
+  [animations]="animations"
+  [lineChart]="lineChartSeries"
+  [yAxisTickFormatting]="yLeftTickFormat"
+  [yLeftAxisScaleFactor]="yLeftAxisScale"
+  [yRightAxisScaleFactor]="yRightAxisScale"
+  [yRightAxisTickFormatting]="yRightTickFormat"
+  [gradient]="gradient"
+  [xAxis]="showXAxis"
+  [yAxis]="showYAxis"
+  [legend]="showLegend"
+  [legendTitle]="legendTitle"
+  [legendPosition]="legendPosition"
+  [showGridLines]="showGridLines"
+  [showXAxisLabel]="showXAxisLabel"
+  [showYAxisLabel]="showYAxisLabel"
+  [showRightYAxisLabel]="showYAxisLabel"
+  [xAxisLabel]="xAxisLabel"
+  [yAxisLabel]="yAxisLabel"
+  [yAxisLabelRight]="yAxisLabelRight">
+</combo-chart-component>`,
   styleUrls: [ './app.component.css' ]
 })
 export class AppComponent  {
@@ -12,7 +36,7 @@ export class AppComponent  {
   gradient = false;
   showLegend = true;
   legendTitle = 'Legend';
-  legendPosition = 'right';
+  legendPosition = 'below';
   showXAxisLabel = true;
   xAxisLabel = 'Country';
   showYAxisLabel = true;
@@ -22,23 +46,66 @@ export class AppComponent  {
   animations: boolean = true;
   barChart: any[] = barChart;
   lineChartSeries: any[] = lineChartSeries;
+
+  barColor: string = '#01579b'
+  lineColor: string = '#7aa3e5';
   lineChartScheme = {
     name: 'coolthree',
     selectable: true,
     group: 'Ordinal',
-    domain: ['#01579b', '#7aa3e5', '#a8385d', '#00bfa5']
+    domain: [this.barColor,this.lineColor]
   };
 
   comboBarScheme = {
     name: 'singleLightBlue',
     selectable: true,
     group: 'Ordinal',
-    domain: ['#01579b']
+    domain: [this.barColor]
   };
 
   showRightYAxisLabel: boolean = true;
   yAxisLabelRight: string = 'Utilization';
+  constructor(){
+    this.barChart = mockData.map(function (element) {
+      return { name: element.dataLeilao, value: element.qtdeDemandada }
+    });
+
+    this.lineChartSeries = [{
+      name: 'Ofertas',
+      series : mockData.map(function (element) {
+        return { name: element.dataLeilao, value: element.qtdeOfertada }
+      })
+    }]
+  }
 }
+
+export var mockData = [
+  {
+    "dataLeilao": "2020-04-16",
+    "qtdeDemandada": 55000,
+    "qtdeOfertada": 20000
+  },
+  {
+    "dataLeilao": "2020-04-17",
+    "qtdeDemandada": 60000,
+    "qtdeOfertada": 20000
+  },
+  {
+    "dataLeilao": "2020-04-18",
+    "qtdeDemandada": 40000,
+    "qtdeOfertada": 20000
+  },
+  {
+    "dataLeilao": "2020-04-19",
+    "qtdeDemandada": 70000,
+    "qtdeOfertada": 20000
+  },
+  {
+    "dataLeilao": "2020-04-20",
+    "qtdeDemandada": 50000,
+    "qtdeOfertada": 20000
+  }
+];
 
 export let lineChartSeries = [
   {
